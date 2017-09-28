@@ -1,0 +1,6 @@
+{
+    "name": "pinboard",
+    "mainClass": "ch.jamiete.hilda.pinboard.PinboardPlugin",
+    "version": "${pom.version}",
+    "author": "jamietech"
+}
