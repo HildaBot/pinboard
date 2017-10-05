@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class PinboardPlugin extends HildaPlugin {
-    public static final int REQUIRED = 3;
     public static final String EMOTE = "\u2B50";
     final ExecutorService executor = Executors.newSingleThreadExecutor();
 

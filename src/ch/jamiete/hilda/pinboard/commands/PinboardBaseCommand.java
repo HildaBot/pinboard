@@ -16,6 +16,7 @@ public class PinboardBaseCommand extends ChannelSeniorCommand {
 
         this.registerSubcommand(new PinboardChannelCommand(hilda, this, plugin));
         this.registerSubcommand(new PinboardImportCommand(hilda, this, plugin));
+        this.registerSubcommand(new PinboardMinimumCommand(hilda, this, plugin));
     }
 
 }

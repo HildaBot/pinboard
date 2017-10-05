@@ -36,6 +36,7 @@ public class PinboardTask implements Runnable {
         }
 
         final String entryid = this.cfg.getString(this.event.getMessageId(), null);
+        int required = this.cfg.getInteger("required", 3);
 
         if (entryid != null) { // Pinboard entry exists
             Message entry = null;
@@ -48,7 +49,7 @@ public class PinboardTask implements Runnable {
             }
 
             if (entry != null) {
-                if (reaction.getCount() < PinboardPlugin.REQUIRED) {
+                if (reaction.getCount() < required) {
                     Hilda.getLogger().fine("Deleting a message for having too few reactions.");
                     entry.delete().queue();
                     return;
@@ -61,8 +62,8 @@ public class PinboardTask implements Runnable {
         }
 
         // No pinboard entry exists if this code is reached
-        if (reaction.getCount() < PinboardPlugin.REQUIRED) {
-            Hilda.getLogger().fine("Did not reach threshold. (" + reaction.getCount() + "<" + PinboardPlugin.REQUIRED + ")");
+        if (reaction.getCount() < required) {
+            Hilda.getLogger().fine("Did not reach threshold. (" + reaction.getCount() + "<" + required + ")");
             return;
         }
 
