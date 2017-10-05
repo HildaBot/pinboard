@@ -30,7 +30,7 @@ public class PinboardListener {
         }
 
         Hilda.getLogger().fine("Handing over a reaction");
-        this.plugin.getHilda().getExecutor().execute(new PinboardTask(event, cfg));
+        this.plugin.executor.execute(new PinboardTask(event, cfg));
     }
 
 }
