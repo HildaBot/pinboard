@@ -19,6 +19,11 @@ public class PinboardTask implements Runnable {
     @Override
     public void run() {
         final TextChannel send = this.event.getGuild().getTextChannelById(this.cfg.getString("pinboard", "12345"));
+
+        if (send == null) {
+            return;
+        }
+
         Message pin = null;
 
         try {
@@ -37,6 +42,11 @@ public class PinboardTask implements Runnable {
 
         final String entryid = this.cfg.getString(this.event.getMessageId(), null);
         int required = this.cfg.getInteger("required", 3);
+
+        if (!send.isNSFW() && pin.getTextChannel().isNSFW() && !pin.getAttachments().isEmpty()) {
+            Hilda.getLogger().fine("Ignored a message with an attachment from a NSFW channel");
+            return;
+        }
 
         if (entryid != null) { // Pinboard entry exists
             Message entry = null;
