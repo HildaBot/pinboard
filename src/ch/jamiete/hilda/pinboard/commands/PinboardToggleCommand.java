@@ -56,7 +56,7 @@ public class PinboardToggleCommand extends ChannelSubCommand {
 
         if (listen) {
             this.plugin.ignoring.remove(message.getGuild().getId());
-        } else {
+        } else if (!this.plugin.ignoring.contains(message.getGuild().getId())) {
             this.plugin.ignoring.add(message.getGuild().getId());
         }
 
