@@ -25,7 +25,7 @@ public class PinboardTask implements Runnable {
             return;
         }
 
-        Message pin = null;
+        final Message pin;
 
         try {
             pin = this.event.getChannel().getMessageById(this.event.getMessageId()).complete();
@@ -59,6 +59,8 @@ public class PinboardTask implements Runnable {
             return;
         }
 
+        int count = (int) reaction.getUsers().complete().stream().filter(u -> !u.getId().equals(pin.getAuthor().getId())).count();
+
         if (entryid != null) { // Pinboard entry exists
             Message entry = null;
 
@@ -70,7 +72,7 @@ public class PinboardTask implements Runnable {
             }
 
             if (entry != null) {
-                if (reaction.getCount() < required) {
+                if (count < required) {
                     Hilda.getLogger().fine("Deleting a message for having too few reactions.");
                     entry.delete().queue();
                     return;
@@ -83,7 +85,7 @@ public class PinboardTask implements Runnable {
         }
 
         // No pinboard entry exists if this code is reached
-        if (reaction.getCount() < required) {
+        if (count < required) {
             Hilda.getLogger().fine("Did not reach threshold. (" + reaction.getCount() + "<" + required + ")");
             return;
         }
