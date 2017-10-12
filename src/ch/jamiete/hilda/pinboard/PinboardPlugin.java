@@ -21,7 +21,7 @@ public class PinboardPlugin extends HildaPlugin {
 
     @Override
     public void onEnable() {
-        this.getHilda().getBot().addEventListener(new PinboardListener(this));
+        this.getHilda().getBot().addEventListener(new PinboardListener(this.getHilda(), this));
         this.getHilda().getCommandManager().registerChannelCommand(new PinboardBaseCommand(this.getHilda(), this));
     }
 

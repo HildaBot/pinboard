@@ -11,9 +11,11 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 public class PinboardListener {
+    private final Hilda hilda;
     private final PinboardPlugin plugin;
 
-    public PinboardListener(final PinboardPlugin plugin) {
+    public PinboardListener(final Hilda hilda, final PinboardPlugin plugin) {
+        this.hilda = hilda;
         this.plugin = plugin;
     }
 
@@ -37,7 +39,7 @@ public class PinboardListener {
         }
 
         Hilda.getLogger().fine("Handing over a reaction");
-        this.plugin.executor.execute(new PinboardTask(event, cfg));
+        this.plugin.executor.execute(new PinboardTask(this.hilda, event, cfg));
     }
 
     @EventHandler

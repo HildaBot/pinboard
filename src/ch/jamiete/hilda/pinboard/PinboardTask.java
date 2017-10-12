@@ -9,10 +9,12 @@ import net.dv8tion.jda.core.events.message.guild.react.GenericGuildMessageReacti
 import java.time.OffsetDateTime;
 
 public class PinboardTask implements Runnable {
-    GenericGuildMessageReactionEvent event;
-    Configuration cfg;
+    final Hilda hilda;
+    final GenericGuildMessageReactionEvent event;
+    final Configuration cfg;
 
-    public PinboardTask(final GenericGuildMessageReactionEvent event, final Configuration cfg) {
+    public PinboardTask(final Hilda hilda, final GenericGuildMessageReactionEvent event, final Configuration cfg) {
+        this.hilda = hilda;
         this.event = event;
         this.cfg = cfg;
     }
@@ -59,7 +61,7 @@ public class PinboardTask implements Runnable {
             return;
         }
 
-        int count = (int) reaction.getUsers().complete().stream().filter(u -> !u.getId().equals(pin.getAuthor().getId())).count();
+        int count = (int) reaction.getUsers().complete().stream().filter(u -> !u.getId().equals(pin.getAuthor().getId()) && !this.hilda.getCommandManager().isUserIgnored(u.getId())).count();
 
         if (entryid != null) { // Pinboard entry exists
             Message entry = null;
