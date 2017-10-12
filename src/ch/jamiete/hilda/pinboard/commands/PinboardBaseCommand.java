@@ -4,7 +4,6 @@ import ch.jamiete.hilda.Hilda;
 import ch.jamiete.hilda.commands.ChannelSeniorCommand;
 import ch.jamiete.hilda.pinboard.PinboardPlugin;
 import net.dv8tion.jda.core.Permission;
-
 import java.util.Arrays;
 
 public class PinboardBaseCommand extends ChannelSeniorCommand {
@@ -17,6 +16,7 @@ public class PinboardBaseCommand extends ChannelSeniorCommand {
         this.setDescription("Manages the pinboard plugin.");
         this.setMinimumPermission(Permission.MANAGE_SERVER);
 
+        this.registerSubcommand(new PinboardAgeCommand(hilda, this, plugin));
         this.registerSubcommand(new PinboardChannelCommand(hilda, this, plugin));
         this.registerSubcommand(new PinboardImportCommand(hilda, this, plugin));
         this.registerSubcommand(new PinboardMinimumCommand(hilda, this, plugin));

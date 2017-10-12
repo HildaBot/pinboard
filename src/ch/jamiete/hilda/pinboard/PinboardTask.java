@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageReaction;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.react.GenericGuildMessageReactionEvent;
+import java.time.OffsetDateTime;
 
 public class PinboardTask implements Runnable {
     GenericGuildMessageReactionEvent event;
@@ -31,6 +32,16 @@ public class PinboardTask implements Runnable {
         } catch (final Exception e) {
             Hilda.getLogger().fine("The message that is to be pinned was lost.");
             return;
+        }
+
+        int age = this.cfg.getInteger("maxage", 0);
+
+        if (age > 0) {
+            OffsetDateTime latest = OffsetDateTime.now().minusDays(age);
+            if (pin.getCreationTime().isBefore(latest)) {
+                Hilda.getLogger().fine("Ignored message that was too old.");
+                return;
+            }
         }
 
         final MessageReaction reaction = pin.getReactions().stream().filter(r -> r.getEmote().getName().equals(PinboardPlugin.EMOTE)).findFirst().orElse(null);
