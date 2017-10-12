@@ -19,6 +19,10 @@ public class PinboardListener {
 
     @EventHandler
     public void onReaction(final GenericGuildMessageReactionEvent event) {
+        if (this.plugin.ignoring.contains(event.getGuild().getId())) {
+            return;
+        }
+
         final Configuration cfg = this.plugin.getHilda().getConfigurationManager().getConfiguration(this.plugin, event.getGuild().getId());
         final TextChannel send = event.getGuild().getTextChannelById(cfg.getString("pinboard", "12345"));
 
