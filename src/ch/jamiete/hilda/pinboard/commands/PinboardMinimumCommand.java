@@ -21,10 +21,7 @@ import ch.jamiete.hilda.commands.ChannelSeniorCommand;
 import ch.jamiete.hilda.commands.ChannelSubCommand;
 import ch.jamiete.hilda.configuration.Configuration;
 import ch.jamiete.hilda.pinboard.PinboardPlugin;
-import ch.jamiete.hilda.pinboard.PinboardUtil;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-
 import java.util.Arrays;
 
 public class PinboardMinimumCommand extends ChannelSubCommand {
@@ -59,7 +56,7 @@ public class PinboardMinimumCommand extends ChannelSubCommand {
         }
 
         cfg.get().addProperty("required", number);
-        this.reply(message, "OK, messages now require " + number + (number == 1 ? "star": "stars") + " to will be pinned.");
+        this.reply(message, "OK, messages now require " + number + " " +  (number == 1 ? "star": "stars") + " to be pinned.");
     }
 
 }
