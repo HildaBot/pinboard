@@ -1,12 +1,12 @@
 package ch.jamiete.hilda.pinboard;
 
+import java.time.OffsetDateTime;
 import ch.jamiete.hilda.Hilda;
 import ch.jamiete.hilda.configuration.Configuration;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageReaction;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.react.GenericGuildMessageReactionEvent;
-import java.time.OffsetDateTime;
 
 public class PinboardTask implements Runnable {
     final Hilda hilda;
@@ -46,7 +46,7 @@ public class PinboardTask implements Runnable {
             }
         }
 
-        final MessageReaction reaction = pin.getReactions().stream().filter(r -> r.getEmote().getName().equals(PinboardPlugin.EMOTE)).findFirst().orElse(null);
+        final MessageReaction reaction = pin.getReactions().stream().filter(r -> r.getReactionEmote().getName().equals(PinboardPlugin.EMOTE)).findFirst().orElse(null);
 
         if (reaction == null) {
             Hilda.getLogger().fine("Couldn't find the relevant reaction on the message.");

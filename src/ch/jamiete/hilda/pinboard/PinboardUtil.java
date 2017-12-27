@@ -33,7 +33,7 @@ public class PinboardUtil {
 
         eb.setAuthor(message.getAuthor().getName(), null, message.getAuthor().getEffectiveAvatarUrl());
         eb.setColor(Color.decode("#FFD700"));
-        eb.setDescription(message.getRawContent());
+        eb.setDescription(message.getContentRaw());
         eb.setTimestamp(message.getCreationTime());
 
         if (!message.getAttachments().isEmpty() && message.getAttachments().get(0).isImage()) {
