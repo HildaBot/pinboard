@@ -1,10 +1,10 @@
 package ch.jamiete.hilda.pinboard.commands;
 
+import java.util.Arrays;
 import ch.jamiete.hilda.Hilda;
 import ch.jamiete.hilda.commands.ChannelSeniorCommand;
 import ch.jamiete.hilda.pinboard.PinboardPlugin;
 import net.dv8tion.jda.core.Permission;
-import java.util.Arrays;
 
 public class PinboardBaseCommand extends ChannelSeniorCommand {
 

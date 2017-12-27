@@ -16,13 +16,13 @@
 
 package ch.jamiete.hilda.pinboard.commands;
 
+import java.util.Arrays;
 import ch.jamiete.hilda.Hilda;
 import ch.jamiete.hilda.commands.ChannelSeniorCommand;
 import ch.jamiete.hilda.commands.ChannelSubCommand;
 import ch.jamiete.hilda.configuration.Configuration;
 import ch.jamiete.hilda.pinboard.PinboardPlugin;
 import net.dv8tion.jda.core.entities.Message;
-import java.util.Arrays;
 
 public class PinboardAgeCommand extends ChannelSubCommand {
     private final PinboardPlugin plugin;
@@ -50,7 +50,7 @@ public class PinboardAgeCommand extends ChannelSubCommand {
 
         try {
             number = Integer.valueOf(arguments[0]);
-        } catch (NumberFormatException e){
+        } catch (final NumberFormatException e) {
             this.usage(message, "<days>", label);
             return;
         }
@@ -60,7 +60,7 @@ public class PinboardAgeCommand extends ChannelSubCommand {
         if (number == 0) {
             this.reply(message, "OK, any message regardless of age can now be pinned.");
         } else {
-            this.reply(message, "OK, messages must now be less than " + number + " " +  (number == 1 ? "day" : "days") + " old to be pinned.");
+            this.reply(message, "OK, messages must now be less than " + number + " " + (number == 1 ? "day" : "days") + " old to be pinned.");
         }
     }
 

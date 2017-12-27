@@ -36,10 +36,10 @@ public class PinboardTask implements Runnable {
             return;
         }
 
-        int age = this.cfg.getInteger("maxage", 0);
+        final int age = this.cfg.getInteger("maxage", 0);
 
         if (age > 0) {
-            OffsetDateTime latest = OffsetDateTime.now().minusDays(age);
+            final OffsetDateTime latest = OffsetDateTime.now().minusDays(age);
             if (pin.getCreationTime().isBefore(latest)) {
                 Hilda.getLogger().fine("Ignored message that was too old.");
                 return;
@@ -54,14 +54,14 @@ public class PinboardTask implements Runnable {
         }
 
         final String entryid = this.cfg.getString(this.event.getMessageId(), null);
-        int required = this.cfg.getInteger("required", 3);
+        final int required = this.cfg.getInteger("required", 3);
 
         if (!send.isNSFW() && pin.getTextChannel().isNSFW() && !pin.getAttachments().isEmpty()) {
             Hilda.getLogger().fine("Ignored a message with an attachment from a NSFW channel");
             return;
         }
 
-        int count = (int) reaction.getUsers().complete().stream().filter(u -> !u.getId().equals(pin.getAuthor().getId()) && !this.hilda.getCommandManager().isUserIgnored(u.getId())).count();
+        final int count = (int) reaction.getUsers().complete().stream().filter(u -> !u.getId().equals(pin.getAuthor().getId()) && !this.hilda.getCommandManager().isUserIgnored(u.getId())).count();
 
         if (entryid != null) { // Pinboard entry exists
             Message entry = null;
