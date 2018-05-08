@@ -4,9 +4,13 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import com.google.gson.JsonElement;
 import ch.jamiete.hilda.Hilda;
+import ch.jamiete.hilda.commands.CommandManager;
 import ch.jamiete.hilda.configuration.Configuration;
 import ch.jamiete.hilda.events.EventHandler;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.MessageBuilder.Formatting;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.react.GenericGuildMessageReactionEvent;
 
@@ -62,6 +66,22 @@ public class PinboardListener {
 
         if (!PinboardPlugin.EMOTE.equals(event.getReactionEmote().getName())) {
             Hilda.getLogger().fine(event.getReactionEmote().getName());
+            return;
+        }
+
+        if (!send.canTalk()) {
+            User owner = event.getGuild().getOwner().getUser();
+            owner.openPrivateChannel().queue(pc -> {
+                MessageBuilder mb = new MessageBuilder();
+                mb.append("Hey, ").append(owner.getName()).append("! You currently have the pinboard on ");
+                mb.append(event.getGuild().getName()).append(" set to output to ").append(send).append("! ");
+                mb.append("Unfortunately I can't send messages to that channel. To fix this, give me permission to send ");
+                mb.append("messages to that channel, change the channel I should send messages to with ");
+                mb.append(CommandManager.PREFIX + "pinboard channel <#channel>", Formatting.BOLD).append(" or ");
+                mb.append("disable the pinboard with ").append(CommandManager.PREFIX + "pinboard disable", Formatting.BOLD);
+                mb.append(".");
+                pc.sendMessage(mb.build());
+            });
             return;
         }
 

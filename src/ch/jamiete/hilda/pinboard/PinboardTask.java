@@ -93,6 +93,11 @@ public class PinboardTask implements Runnable {
         }
 
         Hilda.getLogger().fine("Adding a new pin message.");
+
+        if (!send.canTalk()) {
+            return;
+        }
+
         send.sendMessage(PinboardUtil.build(reaction, pin)).queue(sent -> {
             this.cfg.setString(this.event.getMessageId(), sent.getId());
         });
