@@ -28,7 +28,7 @@ public class PinboardListener {
         final Configuration cfg = this.plugin.getHilda().getConfigurationManager().getConfiguration(this.plugin, event.getGuild().getId());
         final TextChannel send = event.getGuild().getTextChannelById(cfg.getString("pinboard", "12345"));
 
-        if (send == null) {
+        if (send == null || !send.equals(event.getChannel())) {
             return;
         }
 
