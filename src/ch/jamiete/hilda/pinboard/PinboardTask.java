@@ -3,10 +3,10 @@ package ch.jamiete.hilda.pinboard;
 import java.time.OffsetDateTime;
 import ch.jamiete.hilda.Hilda;
 import ch.jamiete.hilda.configuration.Configuration;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageReaction;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.guild.react.GenericGuildMessageReactionEvent;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageReaction;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.guild.react.GenericGuildMessageReactionEvent;
 
 public class PinboardTask implements Runnable {
     final Hilda hilda;
@@ -30,7 +30,7 @@ public class PinboardTask implements Runnable {
         final Message pin;
 
         try {
-            pin = this.event.getChannel().getMessageById(this.event.getMessageId()).complete();
+            pin = this.event.getChannel().retrieveMessageById(this.event.getMessageId()).complete();
         } catch (final Exception e) {
             Hilda.getLogger().fine("The message that is to be pinned was lost.");
             return;
@@ -40,7 +40,7 @@ public class PinboardTask implements Runnable {
 
         if (age > 0) {
             final OffsetDateTime latest = OffsetDateTime.now().minusDays(age);
-            if (pin.getCreationTime().isBefore(latest)) {
+            if (pin.getTimeCreated().isBefore(latest)) {
                 Hilda.getLogger().fine("Ignored message that was too old.");
                 return;
             }
@@ -61,13 +61,13 @@ public class PinboardTask implements Runnable {
             return;
         }
 
-        final int count = (int) reaction.getUsers().complete().stream().filter(u -> !u.getId().equals(pin.getAuthor().getId()) && !this.hilda.getCommandManager().isUserIgnored(u.getId())).count();
+        final int count = (int) reaction.retrieveUsers().complete().stream().filter(u -> !u.getId().equals(pin.getAuthor().getId()) && !this.hilda.getCommandManager().isUserIgnored(u.getId())).count();
 
         if (entryid != null) { // Pinboard entry exists
             Message entry = null;
 
             try {
-                entry = send.getMessageById(entryid).complete();
+                entry = send.retrieveMessageById(entryid).complete();
             } catch (final Exception e) {
                 this.cfg.setString(this.event.getMessageId(), null);
                 Hilda.getLogger().fine("The entry was supposed to exist, but I couldn't find it.");
@@ -77,12 +77,11 @@ public class PinboardTask implements Runnable {
                 if (count < required) {
                     Hilda.getLogger().fine("Deleting a message for having too few reactions.");
                     entry.delete().queue();
-                    return;
                 } else {
                     Hilda.getLogger().fine("Editing a message to update its reaction count.");
                     entry.editMessage(PinboardUtil.build(reaction, pin)).queue();
-                    return;
                 }
+                return;
             }
         }
 
@@ -98,9 +97,7 @@ public class PinboardTask implements Runnable {
             return;
         }
 
-        send.sendMessage(PinboardUtil.build(reaction, pin)).queue(sent -> {
-            this.cfg.setString(this.event.getMessageId(), sent.getId());
-        });
+        send.sendMessage(PinboardUtil.build(reaction, pin)).queue(sent -> this.cfg.setString(this.event.getMessageId(), sent.getId()));
     }
 
 }

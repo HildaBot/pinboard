@@ -22,7 +22,7 @@ import ch.jamiete.hilda.commands.ChannelSeniorCommand;
 import ch.jamiete.hilda.commands.ChannelSubCommand;
 import ch.jamiete.hilda.configuration.Configuration;
 import ch.jamiete.hilda.pinboard.PinboardPlugin;
-import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.api.entities.Message;
 
 public class PinboardMinimumCommand extends ChannelSubCommand {
     private final PinboardPlugin plugin;
@@ -49,7 +49,7 @@ public class PinboardMinimumCommand extends ChannelSubCommand {
         int number;
 
         try {
-            number = Integer.valueOf(arguments[0]);
+            number = Integer.parseInt(arguments[0]);
         } catch (final NumberFormatException e) {
             this.usage(message, "<number>", label);
             return;

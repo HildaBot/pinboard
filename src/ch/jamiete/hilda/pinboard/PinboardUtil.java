@@ -1,12 +1,13 @@
 package ch.jamiete.hilda.pinboard;
 
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.MessageReaction;
+import net.dv8tion.jda.api.entities.TextChannel;
+
 import java.awt.Color;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.MessageReaction;
-import net.dv8tion.jda.core.entities.TextChannel;
 
 public class PinboardUtil {
 
@@ -34,7 +35,7 @@ public class PinboardUtil {
         eb.setAuthor(message.getAuthor().getName(), null, message.getAuthor().getEffectiveAvatarUrl());
         eb.setColor(Color.decode("#FFD700"));
         eb.setDescription(message.getContentRaw());
-        eb.setTimestamp(message.getCreationTime());
+        eb.setTimestamp(message.getTimeCreated());
 
         if (!message.getAttachments().isEmpty() && message.getAttachments().get(0).isImage()) {
             eb.setImage(message.getAttachments().get(0).getUrl());

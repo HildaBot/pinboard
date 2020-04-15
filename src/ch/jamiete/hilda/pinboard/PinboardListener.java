@@ -7,12 +7,11 @@ import ch.jamiete.hilda.Hilda;
 import ch.jamiete.hilda.commands.CommandManager;
 import ch.jamiete.hilda.configuration.Configuration;
 import ch.jamiete.hilda.events.EventHandler;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.MessageBuilder.Formatting;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
-import net.dv8tion.jda.core.events.message.guild.react.GenericGuildMessageReactionEvent;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
+import net.dv8tion.jda.api.events.message.guild.react.GenericGuildMessageReactionEvent;
 
 public class PinboardListener {
     private final Hilda hilda;
@@ -36,7 +35,7 @@ public class PinboardListener {
 
         while (iterator.hasNext()) {
             final Entry<String, JsonElement> entry = iterator.next();
-            String value = null;
+            String value;
 
             try {
                 value = entry.getValue().getAsString();
@@ -77,8 +76,8 @@ public class PinboardListener {
                 mb.append(event.getGuild().getName()).append(" set to output to ").append(send).append("! ");
                 mb.append("Unfortunately I can't send messages to that channel. To fix this, give me permission to send ");
                 mb.append("messages to that channel, change the channel I should send messages to with ");
-                mb.append(CommandManager.PREFIX + "pinboard channel <#channel>", Formatting.BOLD).append(" or ");
-                mb.append("disable the pinboard with ").append(CommandManager.PREFIX + "pinboard disable", Formatting.BOLD);
+                mb.append(CommandManager.PREFIX + "pinboard channel <#channel>", MessageBuilder.Formatting.BOLD).append(" or ");
+                mb.append("disable the pinboard with ").append(CommandManager.PREFIX + "pinboard disable", MessageBuilder.Formatting.BOLD);
                 mb.append(".");
                 pc.sendMessage(mb.build());
             });

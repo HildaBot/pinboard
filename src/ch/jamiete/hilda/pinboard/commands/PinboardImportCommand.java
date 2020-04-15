@@ -6,8 +6,8 @@ import ch.jamiete.hilda.commands.ChannelSubCommand;
 import ch.jamiete.hilda.configuration.Configuration;
 import ch.jamiete.hilda.pinboard.PinboardPlugin;
 import ch.jamiete.hilda.pinboard.PinboardUtil;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 public class PinboardImportCommand extends ChannelSubCommand {
     private final PinboardPlugin plugin;
@@ -33,7 +33,7 @@ public class PinboardImportCommand extends ChannelSubCommand {
 
         this.reply(message, "OK, I've started processing pinned messages in this channel.");
 
-        message.getChannel().getPinnedMessages().queue(messages -> {
+        message.getChannel().retrievePinnedMessages().queue(messages -> {
             for (final Message m : messages) {
                 final String entryid = cfg.getString(m.getId(), null);
 

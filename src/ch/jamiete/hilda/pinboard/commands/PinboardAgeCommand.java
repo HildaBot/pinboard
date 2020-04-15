@@ -17,12 +17,14 @@
 package ch.jamiete.hilda.pinboard.commands;
 
 import java.util.Arrays;
+import java.util.Collections;
+
 import ch.jamiete.hilda.Hilda;
 import ch.jamiete.hilda.commands.ChannelSeniorCommand;
 import ch.jamiete.hilda.commands.ChannelSubCommand;
 import ch.jamiete.hilda.configuration.Configuration;
 import ch.jamiete.hilda.pinboard.PinboardPlugin;
-import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.api.entities.Message;
 
 public class PinboardAgeCommand extends ChannelSubCommand {
     private final PinboardPlugin plugin;
@@ -33,7 +35,7 @@ public class PinboardAgeCommand extends ChannelSubCommand {
         this.plugin = plugin;
 
         this.setName("age");
-        this.setAliases(Arrays.asList("maxage"));
+        this.setAliases(Collections.singletonList("maxage"));
         this.setDescription("Sets the maximum age in days of a message that can be pinned.");
     }
 
@@ -49,7 +51,7 @@ public class PinboardAgeCommand extends ChannelSubCommand {
         int number;
 
         try {
-            number = Integer.valueOf(arguments[0]);
+            number = Integer.parseInt(arguments[0]);
         } catch (final NumberFormatException e) {
             this.usage(message, "<days>", label);
             return;
